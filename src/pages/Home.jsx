@@ -1,44 +1,57 @@
-import React from "react";
+import React,{useMemo} from "react";
+import { useQuery} from "react-query"
+import { helpservice } from "../utils/helper";
+import { postService } from "../services/post.service";
 
 function Home(){
+    const {data: postData} = useQuery("posts", () => postService.getPosts())
+   const posts = useMemo(
+    () => postData?.data?.results,
+    [postData?.data?.results,]
+   );
+   console.log(posts,"posts")
     return(
         <div>
-                 <h1 class="page-header">
-                    Blog Posts
-                    <small></small>
-                </h1>
+                 <h1 class="page-header"> Blog Posts</h1>
 
                 {/* <!-- First Blog Post --> */}
-                <h2>
-                    <a href="#">Blog Post Title</a>
+                {posts?.length > 0 ? (
+                    posts.map((singlePost)=>{
+                        return(
+                            <>
+                            <h2>
+                    <a href="#">{singlePost?.post_title}</a>
                 </h2>
                 <p className="lead">
-                    by <a href="index.php">Start Bootstrap</a>
+                    by <a href="index.php">{singlePost?.post_author}</a>
                 </p>
-                <p><span className="glyphicon glyphicon-time"></span> Posted on August 28, 2013 at 10:00 PM</p>
+                <p><span className="glyphicon glyphicon-time"></span> Posted on 
+                {helpservice.convertDate(singlePost?.post_date)}</p>
                 <hr/>
-                <img className="img-responsive" src="http://placehold.it/900x300" alt=""/>
+                {singlePost?.image ? (
+                    <img src={singlePost?.image}/>
+                ):(
+                    <img className="img-responsive"
+                     src="http://placehold.it/900x300"
+                      alt=""/>
+                )}
+                
                 <hr />
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolore, veritatis, tempora, necessitatibus inventore nisi quam quia repellat ut tempore laborum possimus eum dicta id animi corrupti debitis ipsum officiis rerum.</p>
-                <a className="btn btn-primary" href="#">Read More <span className="glyphicon glyphicon-chevron-right"></span></a>
+                <p>{singlePost?.post_content}</p>
+                <a className="btn btn-primary" href="#">
+                Read More {" "}
+                <span className="glyphicon glyphicon-chevron-right"></span></a>
 
                 <hr/>
+                </>
 
-                {/* <!-- Second Blog Post --> */}
-                <h2>
-                    <a href="#">Blog Post Title</a>
-                </h2>
-                <p className="lead">
-                    by <a href="index.php">Start Bootstrap</a>
-                </p>
-                <p><span className="glyphicon glyphicon-time"></span> Posted on August 28, 2013 at 10:45 PM</p>
-                <hr/>
-                <img className="img-responsive" src="http://placehold.it/900x300" alt=""/>
-                <hr/>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quibusdam, quasi, fugiat, asperiores harum voluptatum tenetur a possimus nesciunt quod accusamus saepe tempora ipsam distinctio minima dolorum perferendis labore impedit voluptates!</p>
-                <a className="btn btn-primary" href="#">Read More <span class="glyphicon glyphicon-chevron-right"></span></a>
-        </div>
+                        )
+                    })
+                ):(
+                    <h2>NO Post Found!</h2>
+                )}
+    </div>
     )
-};
+}
 
 export default Home;

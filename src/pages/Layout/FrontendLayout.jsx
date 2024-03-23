@@ -18,8 +18,15 @@ function FrontendLayout(){
     [categoriesData]
     );
 
-    console.log(firstFiveCategories)
+    
+  const firstTenCategories = useMemo(
+    ()=> categoriesData?.data?.results?.splice(0,10),
+    [categoriesData]
+    );
   
+    
+  
+
     return(
         <>
         <nav className="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -101,7 +108,15 @@ function FrontendLayout(){
                 <div className="row">
                   <div className="col-lg-6">
                     <ul className="list-unstyled">
-                      <li>
+                      {firstTenCategories?.length > 0 && 
+                      firstTenCategories.map((singleCategory)=>{
+                        return (
+                          <li>
+                        <a href="#">{singleCategory?.cat_title}</a>
+                      </li>
+                        )
+                      })}
+                      {/* <li>
                         <a href="#">Category Name</a>
                       </li>
                       <li>
@@ -112,11 +127,11 @@ function FrontendLayout(){
                       </li>
                       <li>
                         <a href="#">Category Name</a>
-                      </li>
+                      </li> */}
                     </ul>
                   </div>
                   {/* <!-- /.col-lg-6 --> */}
-                  <div className="col-lg-6">
+                  {/* <div className="col-lg-6">
                     <ul className="list-unstyled">
                       <li>
                         <a href="#">Category Name</a>
@@ -130,7 +145,7 @@ function FrontendLayout(){
                       <li>
                         <a href="#">Category Name</a>
                       </li>
-                    </ul>
+                    </ul> */}
                   </div>
                   {/* <!-- /.col-lg-6 --> */}
                 </div>
@@ -138,14 +153,14 @@ function FrontendLayout(){
               </div>
   
               {/* <!-- Side Widget Well --> */}
-              <div className="well">
+              {/* <div className="well">
                 <h4>Side Widget Well</h4>
                 <p>
                   Lorem ipsum dolor sit amet, consectetur adipisicing elit.
                   Inventore, perspiciatis adipisci accusamus laudantium odit
                   aliquam repellat tempore quos aspernatur vero.
                 </p>
-              </div>
+                  // </div> */}
             </div>
           </div>
           {/* <!-- /.row --> */}
@@ -162,7 +177,6 @@ function FrontendLayout(){
             </div>
             {/* <!-- /.row --> */}
           </footer>
-        </div>
         {/* <!-- /.container --> */}
   
         {/* <!-- jQuery --> */}
