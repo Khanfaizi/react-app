@@ -5,6 +5,11 @@ const getCategory = () => {
     return apiService.get(API_URLS.GET_CATEGORY)
 };
 
+const getCategoryById = (catId) => {
+    return apiService.get(`${API_URLS.GET_CATEGORY}/${catId}`);
+};
+
 export const CategoryService = {
     getCategory,
+    getCategoryById,
 }

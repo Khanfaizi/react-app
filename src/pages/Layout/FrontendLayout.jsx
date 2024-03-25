@@ -58,7 +58,13 @@ function FrontendLayout(){
                 firstFiveCategories?.map((singleCategory)=>{
                   return(
                     <li key={singleCategory?.cat_id}>
-                      <a href="#">{singleCategory?.cat_title}</a>
+                      <Link to={UNAUTHENTICATED_ROUTES.CATEGORY_DETAIL.replace(
+                        ":catId",
+                        singleCategory?.cat_id
+                      )}
+                      >
+                        {singleCategory?.cat_title}
+                      </Link>
                     </li>
                   );
                 })}
@@ -112,7 +118,13 @@ function FrontendLayout(){
                       firstTenCategories.map((singleCategory)=>{
                         return (
                           <li>
-                        <a href="#">{singleCategory?.cat_title}</a>
+                        <Link to={UNAUTHENTICATED_ROUTES.CATEGORY_DETAIL.replace(
+                        ":catId",
+                        singleCategory?.cat_id
+                      )}
+                      >
+                        {singleCategory?.cat_title}
+                      </Link>
                       </li>
                         )
                       })}
