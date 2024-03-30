@@ -1,100 +1,110 @@
 import React from "react";
+import {useQuery} from "react-query"
+import {useParams ,Link} from "react-router-dom";
+import { postService } from "../services/post.service";
+import { helpservice } from "../utils/helper";
+import {UNAUTHENTICATED_ROUTES} from "../utils/constant"
 
-function PostDetail(){
-    return(
-        <div>
-            {/* <!-- Blog Post --> */}
+function PostDetail() {
+  const { postId } = useParams();
+  const { data: postDetailPage } = useQuery(
+    ["postDetail", postId],
+    () => postService.getPostById(postId),
+    {
+      enabled: Boolean(postId),
+    }
+  );
 
-{/* <!-- Title --> */}
-<h1>Blog Post Title</h1>
+  const singlePost = postDetailPage?.data?.results;
+  return (
+    <div>
+      {/* <!-- Blog Post --> */}
 
-{/* <!-- Author --> */}
-<p className="lead">
-    by <a href="#">Start Bootstrap</a>
-</p>
+      {/* <!-- Title --> */}
+      <h1>Post Detail</h1>
+      <h1>{singlePost?.post_title}</h1>
 
-<hr/>
+      {/* <!-- Author --> */}
+      <p className="lead">
+        by <a href="#">{singlePost?.post_author}</a>
+      </p>
 
-{/* <!-- Date/Time --> */}
-<p><span className="glyphicon glyphicon-time"></span> Posted on August 24, 2013 at 9:00 PM</p>
+      <hr />
 
-<hr/>
+      {/* <!-- Date/Time --> */}
+      <p>
+        <span className="glyphicon glyphicon-time"></span> Posted on{" "}
+        {helpservice.convertDate(singlePost?.post_date)}
+      </p>
 
-{/* <!-- Preview Image --> */}
-<img className="img-responsive" src="http://placehold.it/900x300" alt=""/>
+      <hr />
 
-<hr/>
+      {/* <!-- Preview Image --> */}
+      <Link
+      to={UNAUTHENTICATED_ROUTES.POST_DETAIL.replace(
+        "postId",
+        singlePost?.id
+      )}
+      >
+        {singlePost?.image ?(
+             <img src={singlePost?.image}/>
+        ) : (
+            <img
+            className="img-responsive"
+            src="http://placehold.it/900x300"
+            alt=""
+          />
+        )}
+        </Link>
 
-{/* <!-- Post Content --> */}
-<p className="lead">
-    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ducimus, vero,
-    obcaecati, aut, error quam sapiente nemo saepe quibusdam sit excepturi
-    nam quia corporis eligendi eos magni recusandae laborum minus inventore? 
-  </p>
-<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut, tenetur natus doloremque laborum quos iste ipsum rerum obcaecati impedit odit illo dolorum ab tempora nihil dicta earum fugiat. Temporibus, voluptatibus.</p>
-<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eos, doloribus, dolorem iusto blanditiis unde eius illum consequuntur neque dicta incidunt ullam ea hic porro optio ratione repellat perspiciatis. Enim, iure!</p>
-<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Error, nostrum, aliquid, animi, ut quas placeat totam sunt tempora commodi nihil ullam alias modi dicta saepe minima ab quo voluptatem obcaecati?</p>
-<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Harum, dolor quis. Sunt, ut, explicabo, aliquam tenetur ratione tempore quidem voluptates cupiditate voluptas illo saepe quaerat numquam recusandae? Qui, necessitatibus, est!</p>
+      <hr />
 
-<hr/>
+      {/* <!-- Post Content --> */}
+      <p class="lead">{singlePost?.post_content}</p>
 
-{/* <!-- Blog Comments --> */}
+      <hr />
 
-{/* <!-- Comments Form --> */}
-<div className="well">
-    <h4>Leave a Comment:</h4>
-    <form role="form">
-        <div className="form-group">
+      {/* <!-- Blog Comments --> */}
+
+      {/* <!-- Comments Form --> */}
+      <div className="well">
+        <h4>Leave a Comment:</h4>
+        <form role="form">
+          <div className="form-group">
             <textarea className="form-control" rows="3"></textarea>
-        </div>
-        <button type="submit" className="btn btn-primary">Submit</button>
-    </form>
-</div>
+          </div>
+          <button type="submit" className="btn btn-primary">
+            Submit
+          </button>
+        </form>
+      </div>
 
-<hr/>
+      <hr />
 
-{/* <!-- Posted Comments --> */}
+      {/* <!-- Posted Comments --> */}
 
-{/* <!-- Comment --> */}
-<div className="media">
-    <a className="pull-left" href="#">
-        <img className="media-object" src="http://placehold.it/64x64" alt=""/>
-    </a>
-    <div className="media-body">
-        <h4 className="media-heading">Start Bootstrap
+      {/* <!-- Comment --> */}
+      <div className="media">
+        <a className="pull-left" href="#">
+          <img
+            className="media-object"
+            src="http://placehold.it/64x64"
+            alt=""
+          />
+        </a>
+        <div className="media-body">
+          <h4 className="media-heading">
+            Start Bootstrap
             <small>August 25, 2014 at 9:30 PM</small>
-        </h4>
-        Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-    </div>
-</div>
-
-{/* <!-- Comment --> */}
-<div className="media">
-    <a className="pull-left" href="#">
-        <img className="media-object" src="http://placehold.it/64x64" alt=""/>
-    </a>
-    <div className="media-body">
-        <h4 className="media-heading">Start Bootstrap
-            <small>August 25, 2014 at 9:30 PM</small>
-        </h4>
-        Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-        {/* <!-- Nested Comment --> */}
-        <div className="media">
-            <a className="pull-left" href="#">
-                <img className="media-object" src="http://placehold.it/64x64" alt=""/>
-            </a>
-            <div className="media-body">
-                <h4 className="media-heading">Nested Start Bootstrap
-                    <small>August 25, 2014 at 9:30 PM</small>
-                </h4>
-                Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-            </div>
+          </h4>
+          Cras sit amet nibh libero, in gravida nulla. Nulla vel metus
+          scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in
+          vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi
+          vulputate fringilla. Donec lacinia congue felis in faucibus.
         </div>
-        {/* <!-- End Nested Comment --> */}
-    </div>
-</div>
-</div>
-    )
-};
+      </div>
+      </div>
+  );
+  }
 
 export default PostDetail;

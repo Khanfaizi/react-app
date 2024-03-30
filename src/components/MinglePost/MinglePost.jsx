@@ -1,13 +1,21 @@
 import React from "react";
 import { helpservice } from "../../utils/helper";
+import { UNAUTHENTICATED_ROUTES } from "../../utils/constant";
 // import { UNAUTHENTICATED_ROUTES } from "../../utils/constant";
+import { Link } from "react-router-dom";
 
 
-function SinglePost({ singlePost }) {
+function MinglePost({ singlePost }) {
   return (
     <>
       <h2>
-        <a href="#">{singlePost?.post_title}</a>
+        <Link to={UNAUTHENTICATED_ROUTES.POST_DETAIL.replace(
+          ":postId",
+          singlePost?.id
+        )}
+        >
+          {singlePost?.post_title}
+        </Link>
       </h2>
       <p className="lead">
         by <a href="index.php">{singlePost?.post_author}</a>
@@ -38,4 +46,4 @@ function SinglePost({ singlePost }) {
   );
 }
 
-export default SinglePost;
+export default MinglePost;

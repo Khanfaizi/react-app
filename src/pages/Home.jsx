@@ -1,7 +1,7 @@
 import React,{useMemo} from "react";
 import { useQuery} from "react-query"
 import { postService } from "../services/post.service";
-import SinglePost from "../components/SinglePost/SinglePost";
+import MinglePost from "../components/MinglePost/MinglePost";
 
 function Home(){
     const {data: postData} = useQuery("posts", () => postService.getPosts())
@@ -17,7 +17,7 @@ function Home(){
                 {/* <!-- First Blog Post --> */}
                 {posts?.length > 0 ? (
                     posts.map((singlePost)=>{
-                        return <SinglePost singlePost={singlePost}/>
+                        return <MinglePost singlePost={singlePost}/>
                     })
                 ):(
                     <h2>NO Post Found!</h2>
