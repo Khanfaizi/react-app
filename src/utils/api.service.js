@@ -6,7 +6,7 @@ const apiSauceInstance = create({
 
 const globalHeaders = {
     headers :{
-        "content-type" : "multipart/formData"
+        "content-type" : "applicaton/json",  
     },
 };
 

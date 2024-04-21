@@ -1,10 +1,11 @@
-import React, { useMemo } from "react";
+import React, { useMemo,useState } from "react";
 import {useQuery } from "react-query"
 import "../../frotend-assets/css/blog-home.css"
 import "../../frotend-assets/css/bootstrap.min.css"
-import {Outlet,Link} from "react-router-dom";
+import {Outlet,Link, useNavigate} from "react-router-dom";
 import {CategoryService} from "../../services/categories.service"
-import {UNAUTHENTICATED_ROUTES} from "../../utils/constant"
+import {AUTHENTICATED_ROUTE, UNAUTHENTICATED_ROUTES} from "../../utils/constant"
+import { AuthService } from "../../utils/auth.services";
 
 
 function FrontendLayout(){
@@ -23,10 +24,25 @@ function FrontendLayout(){
     ()=> categoriesData?.data?.results?.splice(0,10),
     [categoriesData]
     );
-  
-    
-  
 
+    const [searchInput , setSearchInput] = useState("");
+
+    const navigate = useNavigate();
+
+
+   const searchInputHandler = (e) =>{
+    e.preventDefault();
+    setSearchInput(e.target.value);
+   }
+   console.log(searchInputHandler)
+  
+    const searchBtnHandler = (e) => {
+      e.preventDefault()
+      navigate(
+        UNAUTHENTICATED_ROUTES.SEARCH_DETAIL.replace(":query", searchInput)
+      );
+    };
+    
     return(
         <>
         <nav className="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -67,7 +83,36 @@ function FrontendLayout(){
                       </Link>
                     </li>
                   );
+         
                 })}
+                {AuthService.isUserLoggedIn() ? (
+                <>
+                <li>
+                  <Link to = {AUTHENTICATED_ROUTE.DASHBOARD}>Dashboard
+                  </Link>
+                  </li>
+                  <li>
+                  <a 
+                  href="#"
+                  onClick={() => {
+                    AuthService.removeToken();
+                    window.location.href = UNAUTHENTICATED_ROUTES.LOGIN;
+                  }}
+                  >
+                    Logout
+                    </a>
+                </li>
+                </>
+                ) : ( 
+                <>
+                <li>
+                  <Link to = {UNAUTHENTICATED_ROUTES.REGISTER}>Register</Link>
+                </li>
+                <li>
+                  <Link to = {UNAUTHENTICATED_ROUTES.LOGIN}>Login</Link>
+                </li>
+                </>
+                )}
                 </ul>
                 {/* <li>
                   <a href="#">About</a>
@@ -79,7 +124,9 @@ function FrontendLayout(){
                   <a href="#">Contact</a>
                 </li>
               </ul> */}
+            
             </div>
+        
             {/* <!-- /.navbar-collapse --> */}
           </div>
           {/* <!-- /.container --> */}
@@ -88,17 +135,25 @@ function FrontendLayout(){
         <div className="container">
           <div className="row">
             {/* <!-- Blog Entries Column --> */}
-            <div className="col-md-8">
+            <div className="col-md-8" style={{
+              marginTop:40
+            }}>
               <Outlet />
             </div>
   
             {/* <!-- Blog Sidebar Widgets Column --> */}
             <div className="col-md-4">
               {/* <!-- Blog Search Well --> */}
+             
               <div className="well">
                 <h4>Blog Search</h4>
+                <form onSubmit={searchBtnHandler}>
                 <div className="input-group">
-                  <input type="text" className="form-control" />
+                  <input type="text" 
+                  className="form-control" 
+                  onChange={searchInputHandler}
+                  value={searchInput}
+                  />
                   <span className="input-group-btn">
                     <button className="btn btn-default" type="button">
                       <span className="glyphicon glyphicon-search"></span>
@@ -106,6 +161,7 @@ function FrontendLayout(){
                   </span>
                 </div>
                 {/* <!-- /.input-group --> */}
+                 </form>
               </div>
   
               {/* <!-- Blog Categories Well --> */}

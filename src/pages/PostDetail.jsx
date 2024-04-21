@@ -1,12 +1,50 @@
 import React from "react";
-import {useQuery} from "react-query"
+import { useState } from "react";
+import {useMutation, useQuery} from "react-query"
 import {useParams ,Link} from "react-router-dom";
 import { postService } from "../services/post.service";
 import { helpservice } from "../utils/helper";
-import {UNAUTHENTICATED_ROUTES} from "../utils/constant"
+import {UNAUTHENTICATED_ROUTES} from "../utils/constant";
+import { commentService } from "../services/comment.service";
+import {message} from "antd"
+
 
 function PostDetail() {
   const { postId } = useParams();
+  const [commentsValue ,setCommentsValue] = useState("")
+  const [messageApi,contextHolder] =message.useMessage();
+
+
+  const {mutateAsync : commentRequest , isLoading: commentsRequestLoader } =
+  useMutation(["storeComments", postId], (payload) =>
+    commentService.storeComment(payload)
+  )
+
+  const commentsHandler = (event) =>{
+    event.preventDefault();
+    
+    const payLoad = {
+      comment_content : commentsValue,
+      post_id : postId,
+    }
+
+    commentRequest(payLoad,{
+      onSuccess: () => {
+        messageApi.open({
+          type: "success",
+          content: "Comment added successfully but approval is required.",
+        });
+
+        setCommentsValue("");
+      }
+    })
+}
+
+  const commentChaneHandler = (e) => {
+       e.preventDefault();
+       setCommentsValue(e.target.value);
+  }
+
   const { data: postDetailPage } = useQuery(
     ["postDetail", postId],
     () => postService.getPostById(postId),
@@ -18,6 +56,7 @@ function PostDetail() {
   const singlePost = postDetailPage?.data?.results;
   return (
     <div>
+      {contextHolder}
       {/* <!-- Blog Post --> */}
 
       {/* <!-- Title --> */}
@@ -69,9 +108,15 @@ function PostDetail() {
       {/* <!-- Comments Form --> */}
       <div className="well">
         <h4>Leave a Comment:</h4>
-        <form role="form">
+        <form role="form" onSubmit={commentsHandler}>
           <div className="form-group">
-            <textarea className="form-control" rows="3"></textarea>
+            <textarea 
+            className="form-control"
+            onChange={commentChaneHandler}
+            value={commentsValue} 
+            rows="3">
+
+            </textarea>
           </div>
           <button type="submit" className="btn btn-primary">
             Submit
