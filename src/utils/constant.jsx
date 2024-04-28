@@ -9,6 +9,12 @@
 
  export const AUTHENTICATED_ROUTE = {
     DASHBOARD :"/admin/dashboard",
+    CATEGORIES :"/admin/categories",
+    USERS :"/admin/users",
+    POSTS :"/admin/posts",
+    ADD_CATEGORY :"/admin/categories/add",
+    EDIT_CATEGORY : "/admin/categories/edit/:categoryId",
+    USER : "/admin/users",
 };
 
 export const PASSWORD_REGEX =

@@ -5,4 +5,6 @@ export const API_URLS ={
     SEARCH_POST :"/search",
     REGISTER : "/register",
     LOGIN : "/login",
+    USERS : "/users"
+    
 };

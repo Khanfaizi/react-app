@@ -8,7 +8,12 @@ const login = (data) => {
     return apiService.post(API_URLS.LOGIN,data)
 }
 
+const getUser = () => {
+    return apiService.get(API_URLS.USERS)
+};
+
 export const userService = {
     register,
     login,
+    getUser,
 }

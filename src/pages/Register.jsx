@@ -8,7 +8,7 @@ const { Title } = Typography;
 function Register() {
   const [messageApi, contextHolder] = message.useMessage();
 
-  const { mutateAsync: registerRequest, isloading: registerRequestLoader } =
+  const { mutateAsync: registerRequest, isLoading: registerRequestLoader } =
     useMutation("register", (payLoad) => userService.register(payLoad));
 
   const [form] = Form.useForm();

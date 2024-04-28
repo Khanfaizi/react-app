@@ -16,22 +16,30 @@ const items = [
   {
     key: 1,
     icon: <LineChartOutlined />,
-    label: <Link to={AUTHENTICATED_ROUTE.DASHBOARD}>Dashboard</Link>,
+    label: <div>
+        <Link to={AUTHENTICATED_ROUTE.DASHBOARD}>Dashboard</Link>
+    </div>,
   },
   {
     key: 2,
     icon: <AlignCenterOutlined />,
-    label: <Link to={AUTHENTICATED_ROUTE.CATEGORIES}>Categories</Link>,
+    label: <div>
+    <Link to={AUTHENTICATED_ROUTE.CATEGORIES}>Categories</Link>
+</div>,
   },
   {
     key: 3,
     icon: <UserOutlined />,
-    label: "Users",
+    label: <div>
+    <Link to={AUTHENTICATED_ROUTE.USERS}>Users</Link>
+</div>
   },
   {
     key: 4,
     icon: <BookOutlined />,
-    label: "Posts",
+    label: <div>
+    <Link to={AUTHENTICATED_ROUTE.POSTS}>Posts</Link>
+</div>
   },
   {
     key: 5,
@@ -112,6 +120,7 @@ const AdminLayout = () => {
               minHeight: 360,
               background: colorBgContainer,
               borderRadius: borderRadiusLG,
+              overflowX : "auto",
             }}
           >
             <Outlet />

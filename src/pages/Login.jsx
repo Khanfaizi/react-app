@@ -1,6 +1,6 @@
 import React from "react";
 import { Typography, Form, Input, Button, message } from "antd";
-import { PASSWORD_REGEX, PASSWORD_REGEX_MESSAGE, UNAUTHENTICATED_ROUTES } from "../utils/constant";
+import { AUTHENTICATED_ROUTE, PASSWORD_REGEX, PASSWORD_REGEX_MESSAGE, UNAUTHENTICATED_ROUTES } from "../utils/constant";
 import { userService } from "../services/user.services";
 import { useMutation } from "react-query";
 import { AuthService } from "../utils/auth.services";
@@ -9,7 +9,7 @@ const { Title } = Typography;
 function Login() {
   const [messageApi, contextHolder] = message.useMessage();
 
-  const { mutateAsync: loginRequest, isloading: loginRequestLoader } =
+  const { mutateAsync: loginRequest, isLoading: loginRequestLoader } =
     useMutation("login", (payLoad) => userService.login(payLoad));
 
   const [form] = Form.useForm();
@@ -28,7 +28,7 @@ function Login() {
         AuthService.saveToken(apiResponse?.token);
         AuthService.saveUserName(apiResponse?.username);
 
-        window.location.href = UNAUTHENTICATED_ROUTES.HOME;
+        window.location.href = AUTHENTICATED_ROUTE.DASHBOARD;
       },
     });
   };
