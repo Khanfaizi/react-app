@@ -12,8 +12,13 @@ const getUser = () => {
     return apiService.get(API_URLS.USERS)
 };
 
+const deleteUserById = (userId) => {
+    return apiService.delete(`${API_URLS.USERS}/${userId}`)
+}
+
 export const userService = {
     register,
     login,
     getUser,
+    deleteUserById
 }

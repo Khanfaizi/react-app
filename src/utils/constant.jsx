@@ -14,7 +14,8 @@
     POSTS :"/admin/posts",
     ADD_CATEGORY :"/admin/categories/add",
     EDIT_CATEGORY : "/admin/categories/edit/:categoryId",
-    USER : "/admin/users",
+    // USER : "/admin/users",
+    ADD_USER:"/admin/users/add",
 };
 
 export const PASSWORD_REGEX =
