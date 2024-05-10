@@ -2,10 +2,11 @@ import React from 'react';
 import { Button, Checkbox, Form, Input, message } from 'antd';
 import { useMutation } from 'react-query';
 import { userService } from '../../../services/user.services';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { AUTHENTICATED_ROUTE } from '../../../utils/constant';
 
 function AdminUserAdd() {
+  const {userId} =useParams();
   const{mutateAsync : addUserRequest, isLoading:addUserRequestLoader} = useMutation("adddUser",(payLoad)=>userService.register(payLoad));
   const [form] = Form.useForm();
   const [messageApi,contextHolder] =message.useMessage();
@@ -27,6 +28,7 @@ function AdminUserAdd() {
   }
   return (
     <div>
+      <h2>{ userId ? "Edit" : "Add"} User</h2>
       {contextHolder}
       <Form
     onFinish={onFinish}
@@ -35,7 +37,6 @@ function AdminUserAdd() {
     form={form}
   >
     <Form.Item
-      label="username"
       name="username"
       rules={[
         {
@@ -44,11 +45,10 @@ function AdminUserAdd() {
         },
       ]}
     >
-      <Input />
+      <Input placeholder='username' />
     </Form.Item>
 
     <Form.Item
-      label="Firstname"
       name="user_firstname"
       rules={[
         {
@@ -57,11 +57,10 @@ function AdminUserAdd() {
         },
       ]}
     >
-      <Input />
+      <Input placeholder='firstname'/>
     </Form.Item>
 
     <Form.Item
-      label="Lastname"
       name="user_lastname"
       rules={[
         {
@@ -70,11 +69,10 @@ function AdminUserAdd() {
         },
       ]}
     >
-      <Input />
+      <Input placeholder='lastname'/>
     </Form.Item>
 
     <Form.Item
-      label="Email"
       name="email"
       rules={[
         {
@@ -83,11 +81,10 @@ function AdminUserAdd() {
         },
       ]}
     >
-      <Input />
+      <Input placeholder='email'/>
     </Form.Item>
 
     <Form.Item
-      label="Password"
       name="password"
       rules={[
         {
@@ -96,7 +93,7 @@ function AdminUserAdd() {
         },
       ]}
     >
-      <Input.Password />
+      <Input.Password placeholder='Password'/>
     </Form.Item>
 
 
@@ -111,7 +108,7 @@ function AdminUserAdd() {
        htmlType="submit"
        loading = {addUserRequestLoader}
        >
-        Submit
+       {userId ? "Edit" : "Add"} User 
       </Button>
     </Form.Item>
   </Form>

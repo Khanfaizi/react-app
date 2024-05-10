@@ -16,6 +16,7 @@
     EDIT_CATEGORY : "/admin/categories/edit/:categoryId",
     // USER : "/admin/users",
     ADD_USER:"/admin/users/add",
+    EDIT_USER : "/admin/users/edit/:userId",
 };
 
 export const PASSWORD_REGEX =

@@ -91,7 +91,12 @@ function AdminUsers() {
           {
             title: 'Edit',
             render :(row)=>{
-                return <Button type='primary'>Edit</Button>
+             return <Button 
+             onClick={()=>navigate(AUTHENTICATED_ROUTE.EDIT_USER.replace(
+              ":userId",
+              row?.user_id
+            ))}
+             type='primary'>Edit</Button>
             }
           },
           {

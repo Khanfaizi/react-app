@@ -17,6 +17,7 @@ import AdminCategories from './pages/layouts/AdminLayouts/AdminCategories';
 import AddCategory from './pages/layouts/AdminLayouts/AddCategory';
 import AdminUsers from './pages/layouts/AdminLayouts/AdminUsers';
 import AdminUserAdd from './pages/layouts/AdminLayouts/AdminUserAdd';
+import AdminPost from './pages/layouts/AdminLayouts/AdminPost';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -64,7 +65,11 @@ function App() {
           element = {<AdminUsers/>}/>
           <Route path ={AUTHENTICATED_ROUTE.ADD_USER}
           element = {<AdminUserAdd/>}/>
-
+          <Route path ={AUTHENTICATED_ROUTE.EDIT_USER}
+          element = {<AdminUserAdd/>}/>
+          <Route path ={AUTHENTICATED_ROUTE.POSTS}
+          element = {<AdminPost/>}/>
+          
         </Route>
       )}
     </Routes>
